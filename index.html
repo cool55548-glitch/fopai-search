@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>佛牌搜尋工具</title>
+<style>
+body {
+  font-family: Arial;
+  padding: 20px;
+}
+input {
+  width: 90%;
+  padding: 10px;
+  margin: 5px;
+}
+button {
+  padding: 10px 20px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>🔍 佛牌搜尋工具</h2>
+
+<input id="search" placeholder="輸入想找的關鍵字，例如：坤平">
+
+<br>
+
+<input id="exclude" placeholder="排除關鍵字，例如：已售完">
+
+<br>
+
+<button onclick="search()">搜尋</button>
+
+<p id="result"></p>
+
+<script>
+function search(){
+  let word = document.getElementById("search").value;
+  let no = document.getElementById("exclude").value;
+
+  document.getElementById("result").innerHTML =
+  "你搜尋：" + word + "<br>排除：" + no;
+}
+</script>
+
+</body>
+</html>
