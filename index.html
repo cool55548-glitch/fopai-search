@@ -2,48 +2,139 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>佛牌搜尋工具</title>
+<title>佛牌搜尋助手</title>
+
 <style>
 body {
-  font-family: Arial;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
   padding: 20px;
 }
-input {
-  width: 90%;
-  padding: 10px;
-  margin: 5px;
+
+.box {
+  max-width: 500px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
 }
+
+h1 {
+  text-align: center;
+}
+
+input {
+  width: 95%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
 button {
-  padding: 10px 20px;
+  width: 100%;
+  padding: 12px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.card {
+  background: #eee;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
 }
 </style>
+
 </head>
+
 
 <body>
 
-<h2>🔍 佛牌搜尋工具</h2>
+<div class="box">
 
-<input id="search" placeholder="輸入想找的關鍵字，例如：坤平">
+<h1>🙏 佛牌搜尋助手</h1>
 
-<br>
+<label>搜尋關鍵字</label>
+<input id="search" placeholder="例如：坤平、龍婆宏">
 
-<input id="exclude" placeholder="排除關鍵字，例如：已售完">
 
-<br>
+<label>排除文字</label>
+<input id="exclude" placeholder="例如：已售完、展示品">
 
-<button onclick="search()">搜尋</button>
 
-<p id="result"></p>
+<button onclick="search()">開始搜尋</button>
+
+
+<div id="result"></div>
+
+</div>
+
 
 <script>
-function search(){
-  let word = document.getElementById("search").value;
-  let no = document.getElementById("exclude").value;
 
-  document.getElementById("result").innerHTML =
-  "你搜尋：" + word + "<br>排除：" + no;
+let products = [
+{
+name:"龍婆宏 2547 坤平",
+price:"3000元"
+},
+{
+name:"龍婆橋 2541 坤平第一期",
+price:"4500元"
+},
+{
+name:"帕阿贊安諾 2562 四面神",
+price:"2500元"
+},
+{
+name:"坤平 已售完",
+price:"2000元"
 }
+];
+
+
+function search(){
+
+let keyword=document.getElementById("search").value;
+let exclude=document.getElementById("exclude").value;
+
+let result="";
+
+
+products.forEach(function(item){
+
+if(
+item.name.includes(keyword)
+&&
+!item.name.includes(exclude)
+){
+
+result += `
+<div class="card">
+<h3>${item.name}</h3>
+<p>${item.price}</p>
+</div>
+`;
+
+}
+
+});
+
+
+if(result==""){
+result="沒有找到符合的佛牌";
+}
+
+
+document.getElementById("result").innerHTML=result;
+
+}
+
 </script>
+
 
 </body>
 </html>
