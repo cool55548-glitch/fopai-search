@@ -1,10 +1,179 @@
-let products = [];
+<!DOCTYPE html>
+<html>
+<head>
 
+<meta charset="UTF-8">
+<title>佛牌搜尋助手</title>
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#f5f5f5;
+padding:20px;
+}
+
+.box{
+max-width:700px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:15px;
+}
+
+h1{
+text-align:center;
+}
+
+input{
+width:95%;
+padding:12px;
+margin:8px 0;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+button{
+width:100%;
+padding:12px;
+background:black;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+.card{
+background:#eee;
+padding:15px;
+margin-top:10px;
+border-radius:10px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="box">
+
+<h1>🙏 佛牌搜尋助手</h1>
+
+
+<input id="search" placeholder="搜尋佛牌，例如 成功佛、象神、坤平">
+
+
+<input id="exclude" placeholder="排除文字，例如 哈努曼、虎爺">
+
+
+<button onclick="search()">開始搜尋</button>
+
+
+<div id="result"></div>
+
+
+</div>
+
+
+
+<script>
+
+
+// 商品資料
+
+let products=[];
+
+
+// 讀取 products.json
 
 fetch("products.json")
-.then(response => response.json())
-.then(data => {
+.then(response=>response.json())
+.then(data=>{
 
-    products = data;
+products=data;
+
+console.log("載入商品:",products);
+
+})
+.catch(error=>{
+
+console.log("讀取失敗:",error);
 
 });
+
+
+
+
+// 搜尋
+
+function search(){
+
+
+let keyword=
+document.getElementById("search").value;
+
+
+let exclude=
+document.getElementById("exclude").value;
+
+
+
+let result="";
+
+
+
+products.forEach(item=>{
+
+
+if(
+
+item.name.includes(keyword)
+
+&&
+
+!item.name.includes(exclude)
+
+){
+
+
+result += `
+
+<div class="card">
+
+<h3>${item.name}</h3>
+
+<p>價格：${item.price} 元</p>
+
+</div>
+
+`;
+
+}
+
+
+});
+
+
+
+if(result==""){
+
+result="沒有找到符合的佛牌";
+
+}
+
+
+document.getElementById("result").innerHTML=result;
+
+
+}
+
+
+
+</script>
+
+
+</body>
+</html>
