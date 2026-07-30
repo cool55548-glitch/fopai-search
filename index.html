@@ -5,48 +5,49 @@
 <title>佛牌搜尋助手</title>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  padding: 20px;
+
+body{
+font-family:Arial;
+background:#f5f5f5;
+padding:20px;
 }
 
-.box {
-  max-width: 500px;
-  margin: auto;
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
+.box{
+max-width:700px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:15px;
 }
 
-h1 {
-  text-align: center;
+h1{
+text-align:center;
 }
 
-input {
-  width: 95%;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+input,button{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:8px;
+border:1px solid #ccc;
+box-sizing:border-box;
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  background: black;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+button{
+background:black;
+color:white;
+cursor:pointer;
 }
 
-.card {
-  background: #eee;
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 10px;
+
+.card{
+background:#eee;
+padding:15px;
+margin-top:10px;
+border-radius:10px;
 }
+
+
 </style>
 
 </head>
@@ -54,87 +55,115 @@ button {
 
 <body>
 
+
 <div class="box">
 
 <h1>🙏 佛牌搜尋助手</h1>
 
-<label>搜尋關鍵字</label>
-<input id="search" placeholder="例如：坤平、龍婆宏">
+
+<input id="search" placeholder="搜尋佛牌，例如 坤平 龍婆宏">
 
 
-<label>排除文字</label>
-<input id="exclude" placeholder="例如：已售完、展示品">
+<input id="exclude" placeholder="排除，例如 哈努曼 虎爺">
 
 
-<button onclick="search()">開始搜尋</button>
+<button onclick="search()">搜尋</button>
 
 
 <div id="result"></div>
 
+
 </div>
+
 
 
 <script>
 
-let products = [
-{
-name:"龍婆宏 2547 坤平",
-price:"3000元"
-},
-{
-name:"龍婆橋 2541 坤平第一期",
-price:"4500元"
-},
-{
-name:"帕阿贊安諾 2562 四面神",
-price:"2500元"
-},
-{
-name:"坤平 已售完",
-price:"2000元"
-}
-];
+
+let products=[];
 
 
-function search(){
+//讀取 Python 產生的資料
 
-let keyword=document.getElementById("search").value;
-let exclude=document.getElementById("exclude").value;
+fetch("products.json")
+.then(response=>response.json())
+.then(data=>{
 
-let result="";
+products=data;
 
-
-products.forEach(function(item){
-
-if(
-item.name.includes(keyword)
-&&
-!item.name.includes(exclude)
-){
-
-result += `
-<div class="card">
-<h3>${item.name}</h3>
-<p>${item.price}</p>
-</div>
-`;
-
-}
+console.log("載入商品",products.length);
 
 });
 
 
-if(result==""){
-result="沒有找到符合的佛牌";
+
+
+function search(){
+
+
+let keyword=
+document.getElementById("search").value;
+
+
+let exclude=
+document.getElementById("exclude").value;
+
+
+
+let result="";
+
+
+
+products.forEach(item=>{
+
+
+let name=item.name;
+
+
+
+if(
+name.includes(keyword)
+&&
+!name.includes(exclude)
+){
+
+
+result += `
+
+<div class="card">
+
+<h3>${item.name}</h3>
+
+<p>價格：${item.price}</p>
+
+</div>
+
+`;
+
 }
+
+
+});
+
+
+
+if(result==""){
+
+result="沒有找到符合商品";
+
+}
+
 
 
 document.getElementById("result").innerHTML=result;
 
+
 }
+
 
 </script>
 
 
 </body>
+
 </html>
